@@ -8,6 +8,7 @@
 
 #import "GroupNavigationController.h"
 #import "XHPopMenu.h"
+#import "CreateGroupViewController.h"
 
 @interface GroupNavigationController ()
 @property (nonatomic, strong) XHPopMenu *popMenu;
@@ -17,16 +18,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     UIImageView* toMsgButton = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-    toMsgButton.image = [UIImage imageNamed:@"ToChat"];
+    toMsgButton.image = [UIImage imageNamed:@"privatemessage_normal"];
     toMsgButton.userInteractionEnabled = YES;
     [toMsgButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toMsgCtl)]];
+    
+    //群消息小红点
+    UIImageView* alertView = [[UIImageView alloc]initWithFrame:CGRectMake(27, 3, 10, 10)];
+    alertView.backgroundColor = [UIColor redColor];
+    alertView.layer.masksToBounds = YES;
+    alertView.layer.cornerRadius = 5;
+    [toMsgButton addSubview:alertView];
+    
     UIBarButtonItem* toMsgItem = [[UIBarButtonItem alloc]initWithCustomView:toMsgButton];
     self.navigationItem.leftBarButtonItem = toMsgItem;
     
     UIImageView* moreButton = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-    moreButton.image = [UIImage imageNamed:@"ToChat"];
+    moreButton.image = [UIImage imageNamed:@"moreBtn_Nav"];
     moreButton.userInteractionEnabled = YES;
     [moreButton addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMore)]];
     UIBarButtonItem* moreItem = [[UIBarButtonItem alloc]initWithCustomView:moreButton];
@@ -71,6 +80,9 @@
             if (index == 0) {
                 printf("创建群组\n");
                 //[weakSelf enterQRCodeController];
+                CreateGroupViewController* create = [[CreateGroupViewController alloc]init];
+                create.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:create animated:YES];
             }else if (index == 1) {
                 printf("搜索群组\n");
             }
@@ -86,13 +98,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
