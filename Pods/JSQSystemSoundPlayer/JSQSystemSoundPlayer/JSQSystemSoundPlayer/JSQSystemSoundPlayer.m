@@ -25,46 +25,22 @@
 #endif
 
 
-static NSString * const kJSQSystemSoundPlayerUserDefaultsKey = @"kJSQSystemSoundPlayerUserDefaultsKey";
+NSString * const kJSQSystemSoundPlayerUserDefaultsKey = @"kJSQSystemSoundPlayerUserDefaultsKey";
 
 NSString * const kJSQSystemSoundTypeCAF = @"caf";
 NSString * const kJSQSystemSoundTypeAIF = @"aif";
 NSString * const kJSQSystemSoundTypeAIFF = @"aiff";
 NSString * const kJSQSystemSoundTypeWAV = @"wav";
 
+
 @interface JSQSystemSoundPlayer ()
 
-@property (strong, nonatomic) NSMutableDictionary *sounds;
-@property (strong, nonatomic) NSMutableDictionary *completionBlocks;
-
-- (void)playSoundWithName:(NSString *)filename
-                extension:(NSString *)extension
-                  isAlert:(BOOL)isAlert
-          completionBlock:(JSQSystemSoundPlayerCompletionBlock)completionBlock;
-
-- (BOOL)readSoundPlayerOnFromUserDefaults;
-
-- (NSData *)dataWithSoundID:(SystemSoundID)soundID;
-- (SystemSoundID)soundIDFromData:(NSData *)data;
-
-- (SystemSoundID)soundIDForFilename:(NSString *)filenameKey;
-- (void)addSoundIDForAudioFileWithName:(NSString *)filename
-                             extension:(NSString *)extension;
+@property (strong, nonatomic, readonly) NSMutableDictionary *sounds;
+@property (strong, nonatomic, readonly) NSMutableDictionary *completionBlocks;
 
 - (JSQSystemSoundPlayerCompletionBlock)completionBlockForSoundID:(SystemSoundID)soundID;
-- (void)addCompletionBlock:(JSQSystemSoundPlayerCompletionBlock)block
-                 toSoundID:(SystemSoundID)soundID;
+
 - (void)removeCompletionBlockForSoundID:(SystemSoundID)soundID;
-
-- (SystemSoundID)createSoundIDWithName:(NSString *)filename
-                             extension:(NSString *)extension;
-
-- (void)unloadSoundIDs;
-- (void)unloadSoundIDForFileNamed:(NSString *)filename;
-
-- (void)logError:(OSStatus)error withMessage:(NSString *)message;
-
-- (void)didReceiveMemoryWarningNotification:(NSNotification *)notification;
 
 @end
 
@@ -99,11 +75,13 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     return sharedPlayer;
 }
 
-- (instancetype)init
+- (instancetype)initWithBundle:(NSBundle *)bundle
 {
+    NSParameterAssert(bundle != nil);
+
     self = [super init];
     if (self) {
-        _bundle = [NSBundle mainBundle];
+        _bundle = bundle;
         _on = [self readSoundPlayerOnFromUserDefaults];
         _sounds = [[NSMutableDictionary alloc] init];
         _completionBlocks = [[NSMutableDictionary alloc] init];
@@ -118,6 +96,11 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithBundle:[NSBundle mainBundle]];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -127,6 +110,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     _bundle = nil;
 }
 
+
 #pragma mark - Setters
 
 - (void)setBundle:(NSBundle *)bundle
@@ -134,6 +118,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     NSParameterAssert(bundle != nil);
     _bundle = bundle;
 }
+
 
 #pragma mark - Playing sounds
 
@@ -190,6 +175,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
 
     return [setting boolValue];
 }
+
 
 #pragma mark - Public API
 
@@ -263,6 +249,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     }
 }
 
+
 #pragma mark - Sound data
 
 - (NSData *)dataWithSoundID:(SystemSoundID)soundID
@@ -281,11 +268,12 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     return soundID;
 }
 
+
 #pragma mark - Sound files
 
 - (SystemSoundID)soundIDForFilename:(NSString *)filenameKey
 {
-    NSData *soundData = [self.sounds objectForKey:filenameKey];
+    NSData *soundData = [_sounds objectForKey:filenameKey];
     return [self soundIDFromData:soundData];
 }
 
@@ -299,6 +287,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
         [self.sounds setObject:data forKey:filename];
     }
 }
+
 
 #pragma mark - Sound completion blocks
 
@@ -321,6 +310,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
     [self.completionBlocks removeObjectForKey:key];
     AudioServicesRemoveSystemSoundCompletion(soundID);
 }
+
 
 #pragma mark - Managing sounds
 
@@ -394,6 +384,7 @@ static void systemServicesSoundCompletion(SystemSoundID  soundID, void *data)
 
     NSLog(@"[%@] %@ Error: (code %d) %@", [self class], message, (int)error, errorMessage);
 }
+
 
 #pragma mark - Notifications
 

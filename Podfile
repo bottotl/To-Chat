@@ -32,17 +32,18 @@ pod 'PPiAwesomeButton'
 pod 'MBProgressHUD', '0.9'
 
 #ViewController
-pod 'RDVTabBarController', '~> 1.1.9'
-pod 'JazzHands', '~> 2.0.0'
+pod 'RDVTabBarController'
+pod 'JazzHands'
 #push
 #leancloud云存储
-pod 'AVOSCloud', '~> 3.1.3.4'
+pod 'AVOSCloud'
 
 # 如果使用实时通信功能，可以添加：
-pod 'AVOSCloudIM', '~> 3.1.3.4'
+pod 'AVOSCloudIM'
 
 # 如果使用崩溃收集功能，可以添加：
-pod 'AVOSCloudCrashReporting', '~> 3.1.3.4'
+pod 'AVOSCloudCrashReporting'
 
-pod 'LeanChatLib', '~> 0.2.4'
+pod 'LeanChatLib'
+
 

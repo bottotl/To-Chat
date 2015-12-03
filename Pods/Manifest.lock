@@ -21,10 +21,10 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - APParallaxHeader (0.1.6)
-  - AVOSCloud (3.1.3.4)
-  - AVOSCloudCrashReporting (3.1.3.4):
+  - AVOSCloud (3.1.6.7)
+  - AVOSCloudCrashReporting (3.1.6.7):
     - AVOSCloud
-  - AVOSCloudIM (3.1.3.4):
+  - AVOSCloudIM (3.1.6.7):
     - AVOSCloud
   - BlocksKit (2.2.5):
     - BlocksKit/All (= 2.2.5)
@@ -50,23 +50,23 @@ PODS:
   - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
   - iVersion (1.11.4)
-  - JazzHands (2.0.3)
+  - JazzHands (2.0.8)
   - JDStatusBarNotification (1.5.2)
   - JSBadgeView (1.4.1)
-  - JSQSystemSoundPlayer (4.1.0)
-  - LeanChatLib (0.2.4):
-    - AVOSCloud (~> 3.1.3.2)
-    - AVOSCloudIM (~> 3.1.3.2)
+  - JSQSystemSoundPlayer (4.3.0)
+  - LeanChatLib (0.2.6):
+    - AVOSCloud (~> 3.1.4)
+    - AVOSCloudIM (~> 3.1.4)
     - DateTools (= 1.5.0)
     - FMDB (= 2.5)
     - JSBadgeView (= 1.4.1)
-  - MarqueeLabel (2.2.5)
+  - MarqueeLabel (2.3.5)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
   - MMMarkdown (0.3)
   - NYXImagesKit (2.3)
   - ODRefreshControl (1.2)
-  - pop (1.0.7)
+  - pop (1.0.8)
   - POP+MCAnimate (2.0.1):
     - pop (~> 1.0)
     - POP+MCAnimate/Animations (= 2.0.1)
@@ -118,16 +118,16 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.5.4)
   - APParallaxHeader
-  - AVOSCloud (~> 3.1.3.4)
-  - AVOSCloudCrashReporting (~> 3.1.3.4)
-  - AVOSCloudIM (~> 3.1.3.4)
+  - AVOSCloud
+  - AVOSCloudCrashReporting
+  - AVOSCloudIM
   - BlocksKit (~> 2.2.5)
   - hpple (= 0.2.0)
   - iVersion (~> 1.11.4)
-  - JazzHands (~> 2.0.0)
+  - JazzHands
   - JDStatusBarNotification (~> 1.5.2)
   - JSQSystemSoundPlayer
-  - LeanChatLib (~> 0.2.4)
+  - LeanChatLib
   - MarqueeLabel
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
@@ -136,7 +136,7 @@ DEPENDENCIES:
   - ODRefreshControl (~> 1.2)
   - POP+MCAnimate (= 2.0.1)
   - PPiAwesomeButton
-  - RDVTabBarController (~> 1.1.9)
+  - RDVTabBarController
   - ReactiveCocoa
   - RegexKitLite-NoWarning (~> 1.1.0)
   - SDCAlertView (~> 2.4.1)
@@ -151,27 +151,27 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
-  AVOSCloud: d98195a7b15becc540cf30276480e9f510c4e1e4
-  AVOSCloudCrashReporting: ed133feb0b03cd93166a494287642d55837a5952
-  AVOSCloudIM: 0e6ae5878b7a47787e8350cbc30850a1a27ceb39
+  AVOSCloud: 7af6267747894eadfd14560db08ea99a51b57fc0
+  AVOSCloudCrashReporting: dae5c2506d9ad2f6e2c7e2eace82a8c163159b6c
+  AVOSCloudIM: 0d907059ae770b50ff0e424a4d7cb8f01171b319
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   DateTools: b93a2c2017747329c6077c7d7e8a75106e23d0d7
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
-  JazzHands: 0f3c8578f33f45b2fe73975deed6a5f02f9c22d3
+  JazzHands: 355dc5c2b6fc38ee460d0ed7836c69539263f477
   JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
   JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
-  JSQSystemSoundPlayer: 98392a1064d9af1292493f71036b9154f79d203f
-  LeanChatLib: 2d8c6861a590b08273c9281839f30bd13127310d
-  MarqueeLabel: 65ca60ee9ba554be34f35339004c6c9fe6366a31
+  JSQSystemSoundPlayer: 8021a6c823a8d83372c703f49ef7d1f31e7647ff
+  LeanChatLib: 6984334d21a708f8d74b1cd63ed2a7c87aed43c7
+  MarqueeLabel: fd29be3b4cf5f37b01676749409679aac23eb6fa
   Masonry: 9f515466afe48632562342a40a1c224071a1a022
   MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
   MMMarkdown: 13af1af50e5f476f1097797f43ea2bd76c83067a
   NYXImagesKit: 8163e3335a40eaa173ca5bbbf81fafb57d3947eb
   ODRefreshControl: 907e6149d72dde488d5917ccfabee5bd8d711a20
-  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   POP+MCAnimate: a99e209148c602512de487f1160a44bf78572024
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
@@ -188,4 +188,4 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
 
-COCOAPODS: 0.37.0
+COCOAPODS: 0.39.0

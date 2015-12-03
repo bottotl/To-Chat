@@ -18,37 +18,38 @@
 @interface LoginViewController ()
 
 /// 记录登陆状态
-@property (nonatomic, strong) Login *myLogin;
+@property (nonatomic, strong) Login                        *myLogin;
 
 /// 自定义的tableView,当键盘出现的时候，自动上移
-@property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) TPKeyboardAvoidingTableView  *myTableView;
 
 /// 登陆按钮
-@property (strong, nonatomic) UIButton *loginBtn;
+@property (strong, nonatomic) UIButton                     *loginBtn;
 
 /// 用来显示用户头像
-@property (strong, nonatomic) UIImageView *iconUserView;
+@property (strong, nonatomic) UIImageView                  *iconUserView;
 
 /// 输入框
-@property (strong, nonatomic) EaseInputTipsView *inputTipsView;
+@property (strong, nonatomic) EaseInputTipsView            *inputTipsView;
 
 /// 用来显示背景
-@property (strong, nonatomic) UIImageView *bgBlurredView;
+@property (strong, nonatomic) UIImageView                  *bgBlurredView;
 
 /// dismissButton
-@property (strong, nonatomic) UIButton *dismissButton;
+@property (strong, nonatomic) UIButton                     *dismissButton;
 
 /// 去注册
-@property (strong, nonatomic) UIView *bottomView;
+@property (strong, nonatomic) UIView                       *bottomView;
 
-@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIActivityIndicatorView      *activityIndicator;
+
 @end
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.myLogin = [[Login alloc] init];
+    self.myLogin       = [[Login alloc] init];
     self.myLogin.email = [Login preUserEmail];
     
     //    添加myTableView
@@ -58,19 +59,20 @@
         [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
         
         tableView.backgroundView = self.bgBlurredView;
-        tableView.dataSource = self;
-        tableView.delegate = self;
+        tableView.dataSource     = self;
+        tableView.delegate       = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
+        
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
         tableView;
     });
     
-    self.myTableView.contentInset = UIEdgeInsetsMake(-kHigher_iOS_6_1_DIS(20), 0, 0, 0);
+    self.myTableView.contentInset    = UIEdgeInsetsMake(-kHigher_iOS_6_1_DIS(20), 0, 0, 0);
     self.myTableView.tableHeaderView = [self customHeaderView];
-    self.myTableView.tableFooterView=[self customFooterView];
+    self.myTableView.tableFooterView = [self customFooterView];
     [self configBottomView];
     [self showdismissButton:self.showDismissButton];
 }
@@ -79,10 +81,10 @@
     if (!_bgBlurredView) {
         //背景图片
         UIImageView *bgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
-        bgView.contentMode = UIViewContentModeScaleAspectFill;
-        UIImage *bgImage = [UIImage imageWithColor:[UIColor whiteColor]];
+        bgView.contentMode  = UIViewContentModeScaleAspectFill;
+        UIImage *bgImage    = [UIImage imageWithColor:[UIColor whiteColor]];
         
-        CGSize bgImageSize = bgImage.size, bgViewSize = bgView.frame.size;
+        CGSize bgImageSize  = bgImage.size, bgViewSize = bgView.frame.size;
         if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
             bgImage = [bgImage scaleToSize:bgViewSize usingMode:NYXResizeModeAspectFill];
         }

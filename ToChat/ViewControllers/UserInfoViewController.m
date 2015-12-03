@@ -14,9 +14,9 @@
 #import "RDVTabBarController.h"
 
 @interface UserInfoViewController ()<UITableViewDelegate , UITableViewDataSource>
-@property (strong, nonatomic) UITableView *myTableView;
-@property (strong, nonatomic) EaseUserHeaderView *headerView;
-@property (strong, nonatomic) ODRefreshControl *refreshControl;
+@property (strong, nonatomic) UITableView         *myTableView;
+@property (strong, nonatomic) EaseUserHeaderView  *headerView;
+@property (strong, nonatomic) ODRefreshControl    *refreshControl;
 
 @end
 
@@ -29,26 +29,30 @@
     //    添加myTableView
     self.curUser = [self fakeCreateUser];
     _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        tableView.backgroundColor = kColorTableSectionBg;
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        UITableView *tableView          = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        tableView.backgroundColor       = kColorTableSectionBg;
+        tableView.dataSource            = self;
+        tableView.delegate              = self;
+        tableView.separatorStyle        = UITableViewCellSeparatorStyleNone;
+        
         [tableView registerClass:[UserInfoIconCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoIconCell];
         [self.view addSubview:tableView];
+        
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-        tableView.contentInset = insets;
+        
+        UIEdgeInsets insets             = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+        tableView.contentInset          = insets;
         tableView.scrollIndicatorInsets = insets;
 
         tableView;
     });
     __weak typeof(self) weakSelf = self;
 #warning 暂时用本地图片代替
-    _headerView = [EaseUserHeaderView userHeaderViewWithUser:_curUser image:[UIImage imageNamed:@"add_user_icon"]];
+    _headerView   = [EaseUserHeaderView userHeaderViewWithUser:_curUser image:[UIImage imageNamed:@"add_user_icon"]];
     //_headerView = [EaseUserHeaderView userHeaderViewWithUser:_curUser image:[StartImagesManager shareManager].curImage.image];
+    
     _headerView.userIconClicked = ^(){
         [weakSelf userIconClicked];
     };
@@ -82,7 +86,7 @@
 
 #pragma mark footerV
 - (UIView *)footerV{
-    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 72)];
+    UIView *footerV     = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 72)];
     
     UIButton *footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"发消息" andFrame:CGRectMake(kPaddingLeftWidth, (CGRectGetHeight(footerV.frame)-44)/2 , kScreen_Width - 2*kPaddingLeftWidth, 44) target:self action:@selector(messageBtnClicked)];
     [footerV addSubview:footerBtn];

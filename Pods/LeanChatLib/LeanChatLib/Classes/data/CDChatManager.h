@@ -117,10 +117,17 @@ typedef void (^CDRecentConversationsCallback)(NSArray *conversations, NSInteger 
 - (void)fetchConvWithMembers:(NSArray *)members callback:(AVIMConversationResultBlock)callback;
 
 /**
- *  获取我在其中的群聊对话
+ *  获取我在其中的群聊对话，优先从缓存中获取
  *  @param block 对话数组回调
  */
 - (void)findGroupedConvsWithBlock:(AVIMArrayResultBlock)block;
+
+/*!
+ *  获取我在其中的群聊对话
+ *  @param networkFirst 是否网络优先
+ *  @param block        对话数组回调
+ */
+- (void)findGroupedConvsWithNetworkFirst:(BOOL)networkFirst block:(AVIMArrayResultBlock)block;
 
 /**
  *  创建对话
@@ -202,6 +209,11 @@ typedef void (^CDRecentConversationsCallback)(NSArray *conversations, NSInteger 
  */
 - (NSString *)getPathByObjectId:(NSString *)objectId;
 
+/*!
+ *  根据消息来获取视频文件的路径。
+ */
+- (NSString *)videoPathOfMessag:(AVIMVideoMessage *)message;
+
 /**
  *  图片消息，临时的压缩图片路径
  *  @return
@@ -213,5 +225,7 @@ typedef void (^CDRecentConversationsCallback)(NSArray *conversations, NSInteger 
  *  @return
  */
 - (NSString *)uuid;
+
++ (NSError *)errorWithText:(NSString *)text;
 
 @end

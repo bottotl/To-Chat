@@ -188,9 +188,9 @@ THE SOFTWARE.
 
 
 MIT License
-Copyright (c) 2015 Jesse Squires
+Copyright (c) 2013-present Jesse Squires
 
-http://www.hexedbits.com
+http://www.jessesquires.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction, including
@@ -303,7 +303,7 @@ THE SOFTWARE.
 
 ## MarqueeLabel
 
-Copyright (c) 2011-2013 Charles Powell
+Copyright (c) 2011-2015 Charles Powell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation 

@@ -41,6 +41,10 @@ static CDChatManager *instance;
 - (instancetype)init {
     self = [super init];
     if (self) {
+        [AVIMClient setTimeoutIntervalInSeconds:20];
+        // 以下选项也即是说 A 不在线时，有人往A发了很多条消息，下次启动时，不再收到具体的离线消息，而是收到离线消息的数目(未读通知)
+        // [AVIMClient setUserOptions:@{AVIMUserOptionUseUnread:@(YES)}];
+        
         [AVIMClient defaultClient].delegate =self;
         /* 取消下面的注释，将对 im的 open ，start(create conv),kick,invite 操作签名，更安全
          可以从你的服务器获得签名，这里从云代码获取，需要部署云代码，https://github.com/leancloud/leanchat-cloudcode
@@ -81,13 +85,18 @@ static CDChatManager *instance;
 
 - (void)fecthConvWithConvid:(NSString *)convid callback:(AVIMConversationResultBlock)callback {
     AVIMConversationQuery *q = [[AVIMClient defaultClient] conversationQuery];
+    q.cachePolicy = kAVCachePolicyNetworkElseCache;
     [q whereKey:@"objectId" equalTo:convid];
     [q findConversationsWithCallback: ^(NSArray *objects, NSError *error) {
         if (error) {
             callback(nil, error);
         }
         else {
-            callback([objects objectAtIndex:0], error);
+            if (objects.count == 0) {
+                callback(nil, [CDChatManager errorWithText:[NSString stringWithFormat:@"conversation of %@ not exists", convid]]);
+            } else {
+                callback([objects objectAtIndex:0], error);
+            }
         }
     }];
 }
@@ -110,6 +119,7 @@ static CDChatManager *instance;
     // 如果没有数组size限制，传[2,3]，可能取回 [1,2,3]
     [q whereKey:kAVIMKeyMember sizeEqualTo:members.count];
     [q orderByDescending:@"createdAt"];
+    q.cachePolicy = kAVCachePolicyNetworkElseCache;
     q.limit = 1;
     [q findConversationsWithCallback: ^(NSArray *objects, NSError *error) {
         if (error) {
@@ -148,9 +158,19 @@ static CDChatManager *instance;
 }
 
 - (void)findGroupedConvsWithBlock:(AVIMArrayResultBlock)block {
+    [self findGroupedConvsWithNetworkFirst:NO block:block];
+}
+
+- (void)findGroupedConvsWithNetworkFirst:(BOOL)networkFirst block:(AVIMArrayResultBlock)block {
     AVIMConversationQuery *q = [[AVIMClient defaultClient] conversationQuery];
     [q whereKey:AVIMAttr(CONV_TYPE) equalTo:@(CDConvTypeGroup)];
     [q whereKey:kAVIMKeyMember containedIn:@[self.selfId]];
+    if (networkFirst) {
+        q.cachePolicy = kAVCachePolicyNetworkElseCache;
+    } else {
+        q.cachePolicy = kAVCachePolicyCacheElseNetwork;
+        q.cacheMaxAge = 60 * 30; // 半小时
+    }
     // 默认 limit 为10
     q.limit = 1000;
     [q findConversationsWithCallback:block];
@@ -171,10 +191,10 @@ static CDChatManager *instance;
     if (convids.count > 0) {
         AVIMConversationQuery *q = [[AVIMClient defaultClient] conversationQuery];
         [q whereKey:@"objectId" containedIn:[convids allObjects]];
+        q.cachePolicy = kAVCachePolicyNetworkElseCache;
         q.limit = 1000;  // default limit:10
         [q findConversationsWithCallback:callback];
-    }
-    else {
+    } else {
         callback([NSMutableArray array], nil);
     }
 }
@@ -321,6 +341,12 @@ static CDChatManager *instance;
     }
 }
 
+- (void)conversation:(AVIMConversation *)conversation didReceiveUnread:(NSInteger)unread {
+    // 需要开启 AVIMUserOptionUseUnread 选项，见 init
+    DLog(@"conversatoin:%@ didReceiveUnread:%@", conversation, @(unread));
+    [conversation markAsReadInBackground];
+}
+
 #pragma mark - AVIMClientDelegate
 
 - (void)conversation:(AVIMConversation *)conversation membersAdded:(NSArray *)clientIds byClientId:(NSString *)clientId {
@@ -413,6 +439,11 @@ static CDChatManager *instance;
     return [[self getFilesPath] stringByAppendingFormat:@"%@", objectId];
 }
 
+- (NSString *)videoPathOfMessag:(AVIMVideoMessage *)message {
+    // 视频播放会根据文件扩展名来识别格式
+    return [[self getFilesPath] stringByAppendingFormat:@"%@.%@", message.messageId, message.format];
+}
+
 - (NSString *)tmpPath {
     return [[self getFilesPath] stringByAppendingFormat:@"tmp"];
 }
@@ -428,6 +459,10 @@ static CDChatManager *instance;
         [result appendString:[chars substringWithRange:range]];
     }
     return result;
+}
+
++ (NSError *)errorWithText:(NSString *)text {
+    return [NSError errorWithDomain:@"LeanChatLib" code:0 userInfo:@{NSLocalizedDescriptionKey:text}];
 }
 
 #pragma mark - conv cache
@@ -462,7 +497,6 @@ static CDChatManager *instance;
     static BOOL refreshedFromServer = NO;
     NSArray *conversations = [[CDConversationStore store] selectAllConversations];
     if (refreshedFromServer == NO && self.connect) {
-        refreshedFromServer = YES;
         NSMutableSet *convids = [NSMutableSet set];
         for (AVIMConversation *conversation in conversations) {
             [convids addObject:conversation.conversationId];
@@ -471,6 +505,7 @@ static CDChatManager *instance;
             if (error) {
                 block(conversations, nil);
             } else {
+                refreshedFromServer = YES;
                 [[CDConversationStore store] updateConversations:objects];
                 block([[CDConversationStore store] selectAllConversations], nil);
             }

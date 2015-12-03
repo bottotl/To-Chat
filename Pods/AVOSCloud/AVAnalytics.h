@@ -1,6 +1,6 @@
 //
 //  AVAnalytics.h
-//  AVOS Cloud
+//  LeanCloud
 //
 //  Created by Zhu Zeng on 6/20/13.
 //  Copyright (c) 2013 AVOS. All rights reserved.
@@ -13,7 +13,7 @@
 /**
  *  Report Policy
  */
-typedef NS_ENUM(int, AVReportPolicy){
+typedef NS_ENUM(int, AVReportPolicy) {
     /// 实时发送, debug only
     AV_REALTIME = 0,
     
@@ -322,7 +322,7 @@ typedef NS_ENUM(int, AVReportPolicy){
  @return 返回键值
  */
 
-+ (NSString *)getConfigParams:(NSString *)key;
++ (id)getConfigParams:(NSString *)key;
 
 /** 从[NSUserDefaults standardUserDefaults]获取缓存的在线参数
  @return (NSDictionary *).

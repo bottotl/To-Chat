@@ -14,10 +14,12 @@
 #import "LoginViewController.h"
 
 @interface IntroductionViewController ()
-@property (strong, nonatomic) UIButton *registerBtn, *loginBtn;
-@property (strong, nonatomic) SMPageControl *pageControl;
+@property (strong, nonatomic) UIButton             *registerBtn;
+@property (strong, nonatomic) UIButton             *loginBtn;
+@property (strong, nonatomic) SMPageControl        *pageControl;
 
-@property (strong, nonatomic) NSMutableDictionary *iconsDict, *tipsDict;
+@property (strong, nonatomic) NSMutableDictionary  *iconsDict;
+@property (strong, nonatomic) NSMutableDictionary  *tipsDict;
 
 @end
 
@@ -131,11 +133,11 @@
 
 - (void)configureButtonsAndPageControl{
     //    Button
-    UIColor *darkColor = [UIColor colorWithHexString:@"0x28303b"];
-    CGFloat buttonWidth = kScreen_Width * 0.4;
-    CGFloat buttonHeight = kScaleFrom_iPhone5_Desgin(38);
-    CGFloat paddingToCenter = kScaleFrom_iPhone5_Desgin(10);
-    CGFloat paddingToBottom = kScaleFrom_iPhone5_Desgin(20);
+    UIColor  *darkColor       = [UIColor colorWithHexString:@"0x28303b"];
+    CGFloat   buttonWidth     = kScreen_Width * 0.4;
+    CGFloat   buttonHeight    = kScaleFrom_iPhone5_Desgin(38);
+    CGFloat   paddingToCenter = kScaleFrom_iPhone5_Desgin(10);
+    CGFloat   paddingToBottom = kScaleFrom_iPhone5_Desgin(20);
     
     self.registerBtn = ({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -147,7 +149,7 @@
         [button setTitle:@"注册" forState:UIControlStateNormal];
         
         button.layer.masksToBounds = YES;
-        button.layer.cornerRadius = buttonHeight/2;
+        button.layer.cornerRadius  = buttonHeight/2;
         button;
     });
     self.loginBtn = ({
@@ -192,13 +194,13 @@
     }
     
     self.pageControl = ({
-        SMPageControl *pageControl = [[SMPageControl alloc] init];
-        pageControl.numberOfPages = self.numberOfPages;
-        pageControl.userInteractionEnabled = NO;
-        pageControl.pageIndicatorImage = pageIndicatorImage;
+        SMPageControl *pageControl            = [[SMPageControl alloc] init];
+        pageControl.numberOfPages             = self.numberOfPages;
+        pageControl.userInteractionEnabled    = NO;
+        pageControl.pageIndicatorImage        = pageIndicatorImage;
         pageControl.currentPageIndicatorImage = currentPageIndicatorImage;
         [pageControl sizeToFit];
-        pageControl.currentPage = 0;
+        pageControl.currentPage               = 0;
         pageControl;
     });
     
@@ -221,8 +223,8 @@
     for (int index = 0; index < self.numberOfPages; index++) {
         NSString *viewKey = [self viewKeyForIndex:index];
         
-        UIView *iconView = [self.iconsDict objectForKey:viewKey];
-        UIView *tipView = [self.tipsDict objectForKey:viewKey];
+        UIView *iconView  = [self.iconsDict objectForKey:viewKey];
+        UIView *tipView   = [self.tipsDict objectForKey:viewKey];
         
         if (iconView) {
             if (index == 0) {
